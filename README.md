@@ -186,7 +186,7 @@ Multiplies outs by hand value potential so the engine doesn't sacrifice a 4-han 
 **AlphaJong by Jimboom7**
 [https://github.com/Jimboom7/AlphaJong](https://github.com/Jimboom7/AlphaJong)
 
-The confirmed game API call patterns used in this project (`inputOperation`, `inputChiPengGang`, `NetAgent.sendReq2MJ`) and the approach to oplist-based turn detection were researched with significant reference to AlphaJong's source code. AlphaJong is an open source Mahjong Soul coder
+The confirmed game API call patterns used in this project (`inputOperation`, `inputChiPengGang`, `NetAgent.sendReq2MJ`) and the approach to oplist-based turn detection were researched with significant reference to AlphaJong's source code. AlphaJong is an open source Mahjong Soul coder! Thank you for the help.
 
 ---
 
