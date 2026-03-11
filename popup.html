@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahjong Soul Auto — Brazed</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 270px;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: #080608;
+      color: #f0ede8;
+      font-size: 13px;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a0808, #100606);
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(180,30,30,0.3);
+    }
+    .header-row { display: flex; align-items: center; gap: 10px; }
+    .header-icon { font-size: 24px; line-height: 1; }
+    .header-title { font-size: 15px; color: #e03030; font-weight: 800; letter-spacing: 0.05em; }
+    .header-sub { font-size: 10px; color: #666; margin-top: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .header-version { font-size: 9px; color: #3a2020; margin-top: 6px; }
+    .section { padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .section h2 { font-size: 9px; color: #4a3030; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; font-weight: 700; }
+    .status-row { display: flex; align-items: center; gap: 8px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #e03030; box-shadow: 0 0 6px #e03030; }
+    .dot.inactive { background: #333; box-shadow: none; }
+    .btn { width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 600; margin-top: 5px; transition: all 0.15s; font-family: inherit; background: rgba(255,255,255,0.04); color: #9a8888; letter-spacing: 0.04em; }
+    .btn:hover { border-color: #e03030; color: #e03030; }
+    .btn:first-child { margin-top: 0; }
+    .hotkeys { font-size: 11px; color: #6a5050; line-height: 2; }
+    .hotkeys kbd { color: #9a8888; font-family: monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 10px; border: 1px solid rgba(255,255,255,0.08); }
+    .credit { font-size: 10px; color: #4a3030; line-height: 1.7; }
+    .credit a { color: #6a4040; text-decoration: none; }
+    .credit a:hover { color: #e03030; }
+    .footer { padding: 10px 16px; text-align: center; font-size: 9px; color: #2a1818; letter-spacing: 0.05em; }
+    .warning { background: rgba(255,40,40,0.08); border: 1px solid rgba(255,40,40,0.25); border-radius: 6px; padding: 9px 11px; font-size: 10px; color: #cc4444; line-height: 1.6; }
+    .warning strong { color: #e03030; display: block; margin-bottom: 3px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-row">
+      <div class="header-icon">🀄</div>
+      <div>
+        <div class="header-title">BRAZED</div>
+        <div class="header-sub">Mahjong Soul Auto</div>
+      </div>
+    </div>
+    <div class="header-version">v2.0.0</div>
+  </div>
+  <div class="section">
+    <h2>Status</h2>
+    <div class="status-row">
+      <div class="dot inactive" id="active-dot"></div>
+      <span id="status-label">Checking…</span>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Controls</h2>
+    <button class="btn" id="btn-toggle-overlay">Toggle Overlay</button>
+    <button class="btn" id="btn-toggle-auto">Toggle Autopilot</button>
+  </div>
+  <div class="section">
+    <h2>Keyboard Shortcuts</h2>
+    <div class="hotkeys">
+      <kbd>Alt+M</kbd> &nbsp;Toggle overlay<br>
+      <kbd>Alt+A</kbd> &nbsp;Toggle autopilot
+    </div>
+  </div>
+  <div class="section">
+    <div class="warning">
+      <strong>⚠ Ban Risk</strong>
+      Autopilot violates Mahjong Soul's ToS and may result in a <strong>permanent ban</strong>. Use at your own risk. Do not use on an account you care about.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Credits</h2>
+    <div class="credit">
+      Built with reference to<br>
+      <a href="https://github.com/Jimboom7/AlphaJong" target="_blank">AlphaJong by Jimboom7</a><br>
+      Open source Mahjong Soul bot — used as reference for game API calls and action detection.
+    </div>
+  </div>
+  <div class="footer">mahjongsoul.game.yo-star.com</div>
+  <script>
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0];
+      const isOnGame = tab.url && (tab.url.includes('mahjongsoul') || tab.url.includes('yo-star.com'));
+      const dot = document.getElementById('active-dot');
+      const label = document.getElementById('status-label');
+      if (!isOnGame) { dot.className = 'dot inactive'; label.textContent = 'Open Mahjong Soul to use'; }
+      else { dot.className = 'dot'; label.textContent = 'Active on Mahjong Soul'; }
+    });
+    const exec = (fn) => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, func: fn });
+      });
+      window.close();
+    };
+    document.getElementById('btn-toggle-overlay').addEventListener('click', () =>
+      exec(() => { if (window.MJSOverlay) window.MJSOverlay.toggle(); })
+    );
+    document.getElementById('btn-toggle-auto').addEventListener('click', () =>
+      exec(() => { const cb = document.getElementById('mjs-autopilot-toggle'); if (cb) { cb.checked = !cb.checked; cb.dispatchEvent(new Event('change')); } })
+    );
+  </script>
+</body>
+</html>

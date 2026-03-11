@@ -1,0 +1,65 @@
+{
+  "manifest_version": 3,
+  "name": "Mahjong Soul Auto \u2014 Brazed",
+  "version": "2.0.0",
+  "description": "Real-time Riichi Mahjong hand analysis overlay and autopilot for Mahjong Soul. Brazed client \u2014 smart discard, defence mode, danger reading.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://mahjongsoul.game.yo-star.com/*",
+    "https://*.mahjongsoul.com/*",
+    "https://game.mahjongsoul.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mahjongsoul.game.yo-star.com/*"
+      ],
+      "js": [
+        "src/utils/constants.js",
+        "src/utils/tile-utils.js",
+        "src/analysis/shanten.js",
+        "src/analysis/ukeire.js",
+        "src/analysis/hand-analyzer.js",
+        "src/analysis/defense.js",
+        "src/tile-detector.js",
+        "src/autoplayer/autoplayer.js",
+        "src/overlay/overlay-ui.js",
+        "src/main.js"
+      ],
+      "css": [
+        "src/overlay/overlay.css"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false,
+      "world": "MAIN"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/*"
+      ],
+      "matches": [
+        "https://mahjongsoul.game.yo-star.com/*",
+        "https://*.mahjongsoul.com/*"
+      ]
+    }
+  ]
+}
