@@ -11,8 +11,7 @@
 
 A Chrome extension that adds a real-time hand analysis overlay and autopilot to [Mahjong Soul](https://mahjongsoul.game.yo-star.com). Reads live game state directly from the game's JavaScript objects and provides smart discard recommendations, danger reading, and optional auto-play.
 
----![Uploading mahjongpngg.png…]()
-
+---
 
 ## ✨ Features
 
